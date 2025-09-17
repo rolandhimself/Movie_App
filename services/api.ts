@@ -23,6 +23,7 @@ export const fetchMovies = async({query} : {query: string}) => {
     }
 
     const data = await response.json(); //parse response as JSON
+    return data.results; // Return the movies array from the API response
 }
 
 // const url = 'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc';
