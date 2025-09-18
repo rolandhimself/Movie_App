@@ -14,7 +14,9 @@ export default function Index() {
   const { 
     data:movies ,
     loading: moviesLoading, 
-    error: moviesError} = useFetch(()=> fetchMovies({query:''})); //fetching movies with empty query, empty query still works because API has been set to provide popular movies when there's no query
+    error: moviesError
+  } = useFetch(()=> fetchMovies({query:''})); 
+  {/*fetching movies with empty query, empty query still works because API has been set to provide popular movies when there's no query*/}
 
   return (
     <View className="flex-1 bg-primary">
