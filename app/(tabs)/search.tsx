@@ -1,18 +1,20 @@
 import MovieCard from '@/components/MovieCard';
+import SearchBar from '@/components/SearchBar';
+import { icons } from '@/constants/icons';
 import { images } from '@/constants/images';
 import { fetchMovies } from '@/services/api';
 import useFetch from '@/services/useFetch';
-import { useRouter } from 'expo-router';
-import { FlatList, Image, View } from 'react-native';
+import { useState } from 'react';
+import { ActivityIndicator, FlatList, Image, Text, View } from 'react-native';
 
 const search = () => {
-  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState('');
 
   const {
     data: movies,
     loading: moviesLoading,
     error: moviesError,
-  } = useFetch(() => fetchMovies({query: ''}))
+  } = useFetch(() => fetchMovies({query: searchQuery}), false)
 
   return (
     <View className="flex-1 bg-primary">
@@ -26,10 +28,36 @@ const search = () => {
       columnWrapperStyle={
        { justifyContent: 'flex-start',
         gap: 16,
-        marginVertical: 16,
-        marginBottom: 10,}
-      }
+        marginVertical: 16,}}
       className="px-5"
+      contentContainerStyle={{paddingBottom: 100}}
+      ListHeaderComponent={
+        <>
+          <View className="w-full flex-row justify-center mt-20 items-center">
+            <Image source={icons.logo} className="w-12 h-10"/>
+          </View>
+          <View className="my-5">
+            <SearchBar 
+            placeholder='Search movies ...'
+            />
+          </View>
+          {moviesLoading &&(
+            <ActivityIndicator size="large" color="#0000ff" className="my-3"/>
+          )}
+          {moviesError && (
+            <Text className="text-red-500 px-5 my-3">
+              Error: {moviesError.message}
+            </Text>
+          )}
+
+          {!moviesLoading && !moviesError && searchQuery.trim() && movies?.length>0 && (
+            <Text className ="text-xl text-white font-bold" >
+              Search Results for {' '}
+              <Text className="text-accent">{searchQuery}</Text>
+            </Text>
+          )}
+        </>
+      }   
       />
     </View>
   );
