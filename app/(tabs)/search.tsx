@@ -19,9 +19,14 @@ const search = () => {
   } = useFetch(() => fetchMovies({query: searchQuery}), false)
 
   useEffect(() =>{
+    const func = async() => {
     if(searchQuery.trim()) {
-      await
-    }
+      await loadMovies();
+    } else {
+      reset();
+    }}
+
+    func();
   },[searchQuery]) 
 
   return (
