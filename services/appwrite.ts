@@ -16,6 +16,12 @@ export const updateSearchCount = async (query: string, movie: Movie)=>{
 
     if (result.documents.length > 0){
         const existingMovie = result.documents[0];
+        await database.updateDocument(
+            DATABASE_ID, 
+            COLLECTION_ID, 
+            existingMovie.$id, {
+                count: existingMovie.count + 1
+            })
     }
 
 }
