@@ -1,4 +1,4 @@
-import { Client, Databases, Query } from "react-native-appwrite";
+import { Client, Databases, ID, Query } from "react-native-appwrite";
 
 const DATABASE_ID = process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID!;
 const COLLECTION_ID = process.env.EXPO_PUBLIC_APPWRITE_COLLECTION_ID!;
@@ -22,6 +22,8 @@ export const updateSearchCount = async (query: string, movie: Movie)=>{
             existingMovie.$id, {
                 count: existingMovie.count + 1
             })
+    } else {
+        await database.createDocument(DATABASE_ID, COLLECTION_ID, ID.unique())
     }
 
 }
